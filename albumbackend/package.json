@@ -1,0 +1,22 @@
+{
+  "name": "albumfullstack",
+  "version": "1.0.0",
+  "description": "This is a project where we can find both the backend and frontend of the album",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon  app.js"
+  },
+  "author": "Raj Koirala",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.13.0",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "mysql2": "^3.9.7",
+    "nodemon": "^3.1.0"
+  },
+  "devDependencies": {
+    "prisma": "^5.13.0"
+  }
+}
