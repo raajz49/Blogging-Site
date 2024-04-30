@@ -26,8 +26,36 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+
+
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .btn_white { 
+    @apply  border-white bg-white px-8 py-3 text-green-500
+  }
+    .btn_yellows{
+      @apply border-white bg-white px-8 py-3 text-yellow-500
+    }
+
+  .btn_white_text  { 
+    @apply  border-white bg-white px-8 py-3 text-gray-900
+  }
+  .btn_green  { 
+    @apply   bg-green-500 rounded-xl text-white
+  }
+  .btn_dark_green { 
+    @apply  bg-green-900  text-white transition-all hover:bg-black
+  }
+  .btn_dark_green_outline  { 
+    @apply border-gray-200 bg-green-90 px-8 py-5 text-white
+  }
+  
+  .btn_yellow{
+    @apply bg-yellow-50 px-8 py-5 text-white border-yellow-50
+  }
+  .btn_blue{
+    @apply bg-blue-600 rounded-xl text-white
+  }
+  .btn_red{
+    @apply bg-red-400  text-white  rounded-xl
   }
 }

@@ -29,10 +29,11 @@ const Albums = () => {
           fetchData();
         }, []);
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-4 p-8 lg:p-20">
       {albums.map((albums) => (
-        <div key={albums.id}>
-          <p className='mb-2'><strong>Name:</strong> {albums.id}  {albums.title}</p>
+        <div key={albums.id} className="border-2 border-red-400 py-10 px-5">
+          <p><strong className="flex justify-between ml-20 "> {albums.id}</strong></p>
+          <p><strong>Name:</strong> {albums.title}</p>
         </div>
       ))}
     </main>

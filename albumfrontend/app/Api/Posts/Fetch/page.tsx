@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 
@@ -29,12 +30,18 @@ const Post = () => {
             fetchData();
          }, [])
   return (
-    <div >
+    <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-8 lg-p-20 " >
+     
       {posts.map((post)=>(
-        <div key={post.id} className="mb-2'">
-             <p className="underline" ><strong>Id</strong> {post.id}</p>
-             <p><strong>Title</strong>{post.title}</p>
-             <p className="mb-2"><strong>Description:</strong>{post.description}</p>
+        <div key={post.id} className="border-2 border-red-400 py-10 px-5">
+             <p className="underline mb-3" ><strong>Id</strong>
+             {post.id}</p>
+           
+             <p><strong>Title</strong>
+             <div className="mb-3">{post.title}</div></p>
+            
+             <p className="mb-2"><strong>Description:</strong>
+             <div>{post.description}</div></p>
         </div>
       ))}
     </div>

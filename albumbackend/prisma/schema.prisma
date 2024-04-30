@@ -10,44 +10,58 @@ datasource db {
 //here User,Post,Comments--->Multiple users has multiple posts and multiple post has multiple comments
 
 model User {
-    id        Int      @id @default(autoincrement())
-    firstName String
-    lastName  String
-    age       Int
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    post      Post[]
+    id            String         @id @unique @default(uuid())
+    firstName     String
+    lastName      String
+    email         String         @unique
+    password      String
+    age           Int
+    address       String
+    createdAt     DateTime       @default(now())
+    updatedAt     DateTime       @updatedAt
+    post          Post[]
+    refreshTokens RefreshToken[]
+}
+
+model RefreshToken {
+    id          String   @id @unique @default(uuid())
+    hashedToken String
+    userId      String
+    User        User     @relation(fields: [userId], references: [id])
+    revoked     Boolean  @default(false)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 }
 
 model Post {
-    id          Int       @id @default(autoincrement())
+    id          String    @id @unique @default(uuid())
     title       String
     description String
     user        User      @relation(fields: [userId], references: [id])
-    userId      Int
+    userId      String
     comment     Comment[]
 }
 
 model Comment {
-    id          Int    @id @default(autoincrement())
+    id          String @id @unique @default(uuid())
     title       String
     description String
     post        Post   @relation(fields: [postId], references: [id])
-    postId      Int
+    postId      String
 }
 
 //here multiple albums have multiple photographs
 
 model Album {
-    id     Int     @id @default(autoincrement())
+    id     String  @id @unique @default(uuid())
     title  String
     photos Photo[]
 }
 
 model Photo {
-    id         Int    @id @default(autoincrement())
+    id         String @id @unique @default(uuid())
     title      String
     photograph String
     album      Album  @relation(fields: [albumId], references: [id])
-    albumId    Int
+    albumId    String
 }
