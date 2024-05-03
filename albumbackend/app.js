@@ -10,8 +10,11 @@ const prisma = new PrismaClient();
 app.use(express.json());
 
 
-const UserRoutes=require('./routes/User')
-app.use('/user',UserRoutes)
+// const UserRoutes=require('./routes/User')
+// app.use('/user',UserRoutes)
+
+const AuthRoutes=require('./routes/Auth')
+app.use('/auth',AuthRoutes)
 
 const PostRoutes=require('./routes/Post')
 app.use('/posts',PostRoutes)
