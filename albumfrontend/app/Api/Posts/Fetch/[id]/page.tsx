@@ -21,7 +21,7 @@ const Post = ({ params }: { params: Params }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/posts/user/${params.id}`);
+        const response = await fetch(`http://localhost:3001/posts/user/${params.id}`);
 
         if (!response.ok) {
           throw new Error("Failed to fetch");
@@ -55,8 +55,8 @@ const Post = ({ params }: { params: Params }) => {
           {posts.map((post) => (
             <div key={post.id} className="border-2 border-red-400 py-10 px-5">
               <p className="underline mb-3"><strong>Id</strong>{post.id}</p>
-              <p><strong>Title</strong><div className="mb-3">{post.title}</div></p>
-              <p className="mb-2"><strong>Description:</strong><div>{post.description}</div></p>
+              <h6><strong>Title</strong><div className="mb-3">{post.title}</div></h6>
+              <h6 className="mb-2"><strong>Description:</strong><div>{post.description}</div></h6>
               
               <div className='flex flex-col lg:flex-row justify-between gap-3 border-2 rounded-xl border-blue-900 p-1'>
                 

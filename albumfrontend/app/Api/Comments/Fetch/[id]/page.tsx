@@ -26,7 +26,7 @@ const Post = ({params}:{params:Params}) => {
 
         const fetchData=async()=>{
         try {
-            const response= await fetch(`http://localhost:3000/comments/posts/${params.id}`)
+            const response= await fetch(`http://localhost:3001/comments/posts/${params.id}`)
         if(!response.ok){
           throw new Error("Failed to fetch"); 
         }

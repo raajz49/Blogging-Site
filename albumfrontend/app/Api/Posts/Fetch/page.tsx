@@ -11,7 +11,7 @@ interface Post{
 
 }
 async function getData(){
-    const res= await fetch("http://localhost:3000/posts");
+    const res= await fetch("http://localhost:3001/posts");
     return res.json();
 }
 

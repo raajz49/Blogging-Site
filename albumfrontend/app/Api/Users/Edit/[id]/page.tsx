@@ -17,7 +17,7 @@ const router =useRouter();
       
     const fetchData=async()=>{
       try {
-        const response= await fetch(`http://localhost:3000/user/${params.id}`,{method:"PUT"})
+        const response= await fetch(`http://localhost:3001/user/${params.id}`,{method:"PUT"})
         if(!response.ok){
           throw new Error("Failed to fetch");
         }
@@ -50,7 +50,7 @@ const router =useRouter();
     setError(null);
 
     try {
-    const response=  await fetch(`http://localhost:3000/user/${params.id}`,{method:"PUT",
+    const response=  await fetch(`http://localhost:3001/user/${params.id}`,{method:"PUT",
         headers:{
           'Content-type':'application/json',
         },

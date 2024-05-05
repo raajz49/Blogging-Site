@@ -35,7 +35,7 @@ const CreatePost = ({ params }: { params: Params }) => {
         setError(null);
     
         try {
-        const response=  await fetch(`http://localhost:3000/post/${params.id}`,{method:"POST",
+        const response=  await fetch(`http://localhost:3001/post/${params.id}`,{method:"POST",
             headers:{
               'Content-type':'application/json',
             },

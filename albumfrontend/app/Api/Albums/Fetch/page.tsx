@@ -7,7 +7,7 @@ interface Albums{
 import { useEffect, useState } from "react";
 
     async function getData (){
-    const res= await fetch("http://localhost:3000/albums") 
+    const res= await fetch("http://localhost:3001/albums") 
     return res.json();
 
 }
