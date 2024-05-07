@@ -1,106 +1,129 @@
+
 "use client"
 
 
-import { useState } from 'react';
 
-const LoginForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+import { useRouter } from "next/navigation";
+import { ChangeEvent, useState } from "react";
 
-  const handleSubmit = (e:React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission logic here
-    console.log('Email:', email);
-    console.log('Password:', password);
+const RegistrationForm = () => {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    age: "",
+    email: "",
+    address: "",
+    password: ""
+  });
+  const [error, setError] = useState<string | number | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.name === "age" ? parseInt(e.target.value) : e.target.value;
+    setFormData((prevData) => ({
+      ...prevData,
+      [e.target.name]: value,
+    }));
   };
+  
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.firstName || !formData.lastName || !formData.age 
+      || !formData.email || !formData.address || !formData.password) {
+      setError("Please fill every details");
+      return;
+    }
+  
+    setError(null);
+    setLoading(true); // Set loading to true when the form is submitted
+  
+    try {
+      const response = await fetch(`http://localhost:3001/user`, {
+        method: "POST",
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to create user");
+      }
+  
+      const data = await response.json();
+      if (data.exists) {
+        setError("Email already used");
+        return;
+      }
+      
+      router.push('/Form/login');
+    } catch (error) {
+      setError("Something went wrong");
+    } finally {
+      setLoading(false); // Always set loading to false after the request is completed or when an error occurs
+    }
+  };
+    
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="text-center text-3xl font-extrabold text-gray-900">Register your account</h2>
-      </div>
+    <div className='flex justify-center items-center flex-col mt-32'>
+      <h2 className='text-2xl font-bold my-8'>Register User</h2>
+      <form onSubmit={handleSubmit} className='flex gap-3 flex-col w-1/3'>
+        <input type="text" 
+          name="firstName" 
+          placeholder='Enter FirstName'
+          value={formData.firstName}
+          onChange={handleInputChange}
+          className='py-1 px-4 border rounded-md text-black' />
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-               Enter your Email address
-              </label>
-              <div className="mt-1">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none text-black block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-            </div>
+        <input type="text" 
+          name="lastName" 
+          placeholder='Enter LastName'
+          value={formData.lastName}
+          onChange={handleInputChange}
+          className='py-1 px-4 border rounded-md text-black' />
 
-            <div>
-              <label htmlFor ="password" className="block text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <div className="mt-1">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none  text-black block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-            </div>
+        <input type="text" 
+          name="email" 
+          placeholder='Enter Email'
+          value={formData.email}
+          onChange={handleInputChange}
+          className='py-1 px-4 border rounded-md text-black' />
 
-            <div>
-              <label htmlFor ="password" className="block text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <div className="mt-1">
-                <input
-                  id="Confirmpassword"
-                  name="Confirmpassword"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 
-                  rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500
-                   text-black focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-            </div>
+        <input type="password" 
+          name="password" 
+          placeholder='******'
+          value={formData.password}
+          onChange={handleInputChange}
+          className='py-1 px-4 border rounded-md text-black' />
 
+        <input type="number" 
+          name="age" 
+          placeholder='Enter Age'
+          value={formData.age}
+          onChange={handleInputChange}
+          className='py-1 px-4 border rounded-md text-black' />
 
-            <div className="flex items-center justify-between">
-              <div className="text-sm">
-                <a href="/Form/login" className="font-medium text-indigo-600 hover:text-indigo-500">
-                  Have an account?
-                </a>
-              </div>
-            </div>
-
-            <div>
-              <button
-                type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Sign in
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+        <input type="text" 
+          name="address" 
+          placeholder='Enter Address'
+          value={formData.address}
+          onChange={handleInputChange}
+          className='py-1 px-4 border rounded-md text-black' />
+        
+        <button 
+          className='bg-blue-600 text-white mt-5 px-4 py-1 rounded-md cursor-pointer'
+          type="submit"
+        >
+          {loading ? (<p>Loading....</p>) : (<p>Add</p>)}
+        </button>
+      </form>
+      {error && <p className="text-red-500">Error: {error}</p>}
     </div>
   );
-};
+}
 
-export default LoginForm;
+export default RegistrationForm;

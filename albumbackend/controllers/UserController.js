@@ -1,55 +1,99 @@
 const { PrismaClient } = require("@prisma/client");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const { JWT_SECRET } = require('../secret');
 
 const prisma = new PrismaClient();
+
+const hashSync = bcrypt.hashSync;
+const compareSync = bcrypt.compareSync;
 
 const getUser = async (req, res) => {
     try {
         const allUsers = await prisma.user.findMany();
         res.json(allUsers);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Error in fetching User" });
+        console.error('Error in fetching user:', error);
+        res.status(500).json({ success: false, message: "Error in fetching user" });
     }
 };
 
 const postUser = async (req, res) => {
     try {
-        const newUser = await prisma.user.create({ data: req.body });
-        res.json(newUser);
+        const { firstName, lastName, email, password, age, address } = req.body;
+
+        let user = await prisma.user.findFirst({ where: { email } });
+        if (user) {
+            return res.status(400).json({ success: false, message: "User already exists" });
+        }
+
+        const newUser = await prisma.user.create({
+            data: {
+                firstName,
+                lastName,
+                email,
+                password: hashSync(password, 10),
+                age,
+                address
+            }
+        });
+
+        const { password: _password, ...userWithoutPassword } = newUser;
+        res.status(201).json(userWithoutPassword);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Error in Posting User" });
+        console.error('Error in posting user:', error);
+        res.status(500).json({ success: false, message: "Error in posting user" });
     }
 };
 
 const putUser = async (req, res) => {
     try {
-        const id = req.params.id;
-        const newFirstName = req.body.firstName;
-        const newLastName = req.body.lastName;
-        const newAge = req.body.age;
-        const newAddress = req.body.address;
-        const newEmail = req.body.email;
-        const newId = req.body.id;
+        const { id } = req.params;
+        const { firstName, lastName, email, password, age, address } = req.body;
 
         const updatedUser = await prisma.user.update({
             where: { id: parseInt(id) },
-            data: { age: newAge, firstName: newFirstName, lastName: newLastName, email: newEmail, address: newAddress, id: newId }
+            data: { firstName, lastName, email, password, age, address }
         });
-        
+
         res.json(updatedUser);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Error in Updating User" });
+        console.error('Error in updating user:', error);
+        res.status(500).json({ success: false, message: "Error in updating user" });
     }
 };
 
 const deleteUser = async (req, res) => {
     try {
-        const id = req.params.id;
+        const { id } = req.params;
         const deletedUser = await prisma.user.delete({
             where: { id: parseInt(id) },
         });
         res.json(deletedUser);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Error in deleting User" });
+        console.error('Error in deleting user:', error);
+        res.status(500).json({ success: false, message: "Error in deleting user" });
+    }
+};
+
+const login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        let user = await prisma.user.findFirst({ where: { email } });
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User doesn't exist" });
+        }
+
+        if (!compareSync(password, user.password)) {
+            return res.status(400).json({ success: false, message: "Incorrect Password" });
+        }
+        delete user.password;
+        const token = jwt.sign({ userId: user.id }, JWT_SECRET);
+        res.json({ user, token });
+    } catch (error) {
+        console.error('Error in login:', error);
+        res.status(500).json({ success: false, message: "Error in login" });
     }
 };
 
@@ -57,5 +101,6 @@ module.exports = {
     getUser,
     postUser,
     putUser,
-    deleteUser
+    deleteUser,
+    login
 };

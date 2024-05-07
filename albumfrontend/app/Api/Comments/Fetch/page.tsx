@@ -10,7 +10,7 @@ interface Comment{
 
 }
 async function getData(){
-    const res= await fetch("http://localhost:3000/comments");
+    const res= await fetch("http://localhost:3001/comments");
     return res.json();
 }
 
@@ -45,7 +45,7 @@ const Post = () => {
       ))}
     </div>
      ):(
-      <p>No User Found</p>
+      <p className="flex justify-center items-center text-red-600 text-5xl mt-64 ">No Comments Found</p>
     )
   )
 }

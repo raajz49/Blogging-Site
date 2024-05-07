@@ -1,20 +1,49 @@
 "use client"
 
 
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useState } from 'react';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const router = useRouter();
 
-  const handleSubmit = (e:React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log('Email:', email);
-    console.log('Password:', password);
-  };
 
+    try {
+      const response = await fetch('http://localhost:3001/user/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const token = data.token;
+        console.log(token)
+
+        // Store token in localStorage
+        localStorage.setItem('token', token);
+
+        // Fetch user's posts using the token
+        
+         
+        router.push('/Api/Posts/Fetch');
+      
+      } else {
+        setError('Invalid email or password');
+      }
+    } catch (error) {
+      console.error('Error occurred:', error);
+      setError('Something went wrong');
+    }
+  };
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -60,6 +89,8 @@ const LoginForm = () => {
               </div>
             </div>
 
+            {error && <p className="text-red-500">{error}</p>}
+
             <div className="flex items-center justify-between">
               <div className="text-sm">
                 <a href="/Form/ForgotPassword" className="font-medium text-indigo-600 hover:text-indigo-500">
@@ -69,18 +100,16 @@ const LoginForm = () => {
             </div>
 
             <div>
-              <Link href='/Api/Users/Fetch'>
               <button
                 type="submit"
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Sign in
               </button>
-              </Link>
             </div>
-            <a href="/Form/Registration" className=" flex justify-end font-medium text-indigo-600 hover:text-indigo-500">
-                  Don't have an account?
-                </a>
+            <div className="flex justify-end font-medium text-indigo-600 hover:text-indigo-500">
+              <Link href="/Form/Registration">Don't have an account?</Link>
+            </div>
           </form>
         </div>
       </div>
