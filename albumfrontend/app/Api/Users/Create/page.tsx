@@ -12,7 +12,8 @@ const CreateUser = () => {
     age: "",
     email: "",
     address: "",
-    password: ""
+    password: "",
+    photoUrl:""
   });
   const [error, setError] = useState<string | number | null>(null);
   const [loading, setLoading] = useState(false);
@@ -31,7 +32,7 @@ const CreateUser = () => {
     e.preventDefault();
     
     if (!formData.firstName || !formData.lastName || !formData.age 
-      || !formData.email || !formData.address || !formData.password) {
+      || !formData.email || !formData.address || !formData.password || !formData.photoUrl) {
       setError("Please fill every details");
       return;
     }
@@ -110,6 +111,13 @@ const CreateUser = () => {
           name="address" 
           placeholder='Enter Address'
           value={formData.address}
+          onChange={handleInputChange}
+          className='py-1 px-4 border rounded-md text-black' />
+
+        <input type="text" 
+          name="photoUrl" 
+          placeholder='Enter PhotoUrl'
+          value={formData.photoUrl}
           onChange={handleInputChange}
           className='py-1 px-4 border rounded-md text-black' />
         

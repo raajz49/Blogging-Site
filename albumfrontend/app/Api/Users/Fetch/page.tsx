@@ -3,6 +3,7 @@
 import Button from '@/Components/Button';
 import Loading from '@/Components/Loading';
 import { Add, AllInbox, Delete, Edit } from '@mui/icons-material';
+import Image from 'next/image';
 
 import Link from 'next/link'; 
 import { useState, useEffect } from 'react';
@@ -14,6 +15,8 @@ interface User {
   age: number;
   email: string;
   address: string;
+  photoUrl:string;
+
 }
 
 async function getData() {
@@ -61,10 +64,11 @@ const Users = () => {
           <Link href={`/Api/Users/Create`} className='flex p-1 w-32 justify-end items-center mt-10'>
             <Button
               type="submit"
-              title="Create"
+              title="Create User"
               icon={<Add />}
               variant="btn_green"
             />
+            
           </Link>
         </div>
       )}
@@ -73,6 +77,14 @@ const Users = () => {
         <main className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-8">
           {data.map((user) => (
             <div className='border-2 border-b-gray-600 px-2 p-8' key={user.id}>
+              <Image 
+                    src={user.photoUrl}
+                    height="100"
+                    width="400"
+                    alt="GFG logo served from external URL"
+                    priority={true}
+                /> 
+                <p>{user.photoUrl}</p>
               <p className='mb-2'><strong>Name:</strong> {user.firstName} {user.lastName}</p>
               <p className='mb-2'><strong>Email:</strong> {user.email}</p>
               <p className='mb-2'><strong>Age:</strong> {user.age}</p>

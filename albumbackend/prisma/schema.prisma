@@ -17,6 +17,7 @@ model User {
     password  String
     age       Int
     address   String
+    photoUrl  String   @db.VarChar(1000)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     post      Post[]

@@ -20,7 +20,7 @@ const getUser = async (req, res) => {
 
 const postUser = async (req, res) => {
     try {
-        const { firstName, lastName, email, password, age, address } = req.body;
+        const { firstName, lastName, email, password, age, address,photoUrl } = req.body;
 
         let user = await prisma.user.findFirst({ where: { email } });
         if (user) {
@@ -34,7 +34,8 @@ const postUser = async (req, res) => {
                 email,
                 password: hashSync(password, 10),
                 age,
-                address
+                address,
+                photoUrl
             }
         });
 
@@ -49,11 +50,11 @@ const postUser = async (req, res) => {
 const putUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const { firstName, lastName, email, password, age, address } = req.body;
+        const { firstName, lastName, email, password, age, address,photoUrl } = req.body;
 
         const updatedUser = await prisma.user.update({
             where: { id: parseInt(id) },
-            data: { firstName, lastName, email, password, age, address }
+            data: { firstName, lastName, email, password, age, address,photoUrl }
         });
 
         res.json(updatedUser);

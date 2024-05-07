@@ -42,6 +42,10 @@ body {
   .btn_green  { 
     @apply   bg-green-500 rounded-xl text-white
   }
+
+  .btn_logout{
+    @apply bg-red-500 hover:bg-red-600 text-white font-bold  rounded-xl
+  }
   .btn_dark_green { 
     @apply  bg-green-900  text-white transition-all hover:bg-black
   }
@@ -57,5 +61,14 @@ body {
   }
   .btn_red{
     @apply bg-red-400  text-white  rounded-xl
+  }
+  
+  .label_gray{
+    @apply text-gray-500 font-sans font-bold
+  }
+
+  .input_tag{
+    @apply h-12 px-4  rounded-md  text-gray-700 font-bold  border-b-[3px]
+     border-gray-400 focus:border-blue-500 placeholder:text-lg placeholder:font-light
   }
 }
