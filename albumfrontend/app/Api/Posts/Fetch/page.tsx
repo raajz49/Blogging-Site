@@ -118,7 +118,7 @@ const Post = () => {
                       onClick={() => handleDelete(post.id)}
                     />
                   </div>
-                  <Link href={`/Api/Comments/Fetch`}>
+                  <Link href={`/Api/Comments/Fetch/${post.id}`}>
                     <Button
                       type="submit"
                       title="Comments"

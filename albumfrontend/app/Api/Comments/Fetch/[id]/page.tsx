@@ -39,33 +39,33 @@ const Post = ({params}:{params:Params}) => {
     fetchData();
          }, [])
   return (
-    comments?.length> 0 ?(
+    
       <div>
-      <div className="p-8 flex justify-end">
-        <Link href={`/Api/Users/Create`} className='flex p-1 w-32 justify-end items-center mt-10'>
-          <Button
-            type="submit"
-            title="Create"
-            icon={<Add />}
-            variant="btn_dark_green"
-          />
-        </Link>
-      </div>
-      
+   <div className='p-8 flex justify-end '>
+          <Link href={`/Api/Comments/Create/${params.id}`} className='flex p-2 w-48 justify-end items-center mt-10'>
+            <Button
+              type="submit"
+              title="Create User"
+              icon={<Add />}
+              variant="btn_green"
+            />
+            
+          </Link>
+        </div>
+        {comments?.length> 0 ?(  
     <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-8 lg-p-20 " >
       {comments.map((comment)=>(
         <div key={comment.id} className="border-2 border-red-400 py-10 px-5">
              <p className="underline mb-3" ><strong>Id</strong>
              {comment.id}</p>
            
-             <p><strong>Title</strong>
-             <div className="mb-3">{comment.title}</div></p>
+             <h6><strong>Title</strong>
+             <div className="mb-3">{comment.title}</div></h6>
             
-             <p className="mb-2"><strong>Description:</strong>
-             <div>{comment.description}</div></p>
+             <h6 className="mb-2"><strong>Description:</strong>
+             <div>{comment.description}</div></h6>
 
              <div className='flex flex-row  gap-3 border-2  rounded-xl border-blue-900 p-1 '>
-          {/* <Link href={`/Api/Users/Edit/${user.id} `} className=' rounded-xl p-1 px-3'> */}
           <Button
          type="submit"
          title="Edit"
@@ -89,11 +89,13 @@ const Post = ({params}:{params:Params}) => {
       ))}
         {error && <p className="text-red-600">Error: {error}</p>}
     </div>
-    </div>
+   
      ):(
       <p className="flex justify-center items-center font-serif text-red-600 text-5xl h-screen">No Comments Found</p>
-    )
+    )}
+    </div>
   )
+
 }
 
 export default Post

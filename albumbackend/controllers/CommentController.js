@@ -13,7 +13,32 @@ const getComments= async(req,res)=>{
     
 }
 
-const getCommentofUser= async (req, res) => {
+
+const getCommentById = async (req, res) => {
+    try {
+        const postId = parseInt(req.params.postId); 
+        const commentId = parseInt(req.params.commentId); 
+
+        const comment = await prisma.comment.findFirst({
+            where: {
+                id: commentId,
+                postId: postId
+            }
+        });
+
+        if (comment) {
+            res.json(comment);
+        } else {
+            res.status(404).json({ success: false, message: 'Comment not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+};
+
+
+const getCommentofPost= async (req, res) => {
     try{
     const postId = parseInt(req.params.id);
     const userComments = await prisma.comment.findMany({
@@ -29,17 +54,39 @@ const getCommentofUser= async (req, res) => {
 }
 
 
-const postComments=async(req,res)=>{
-    try{
-    const newComments=await prisma.comment.createMany({data:req.body});
-    res.json(newComments)
-    }catch(error){
-        res.json({success:false,message:"Error while posting comment"})
+const postComments = async (req, res) => {
+    try {
+        const postId = parseInt(req.params.id);
+        
+        const newComment = await prisma.comment.create({
+            data: {
+                postId: postId,
+                ...req.body 
+            }
+        });
+        res.json(newComment);
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Error while posting comment" });
     }
 }
 
 
+const deleteComments = async (req, res) => {
+    try {
+        const id = parseInt(req.params.id);
+
+        const deletecomment = await prisma.comment.delete({
+            where: {
+                id: id
+            },
+        });
+       
+        res.json({ message: "Deleted comments", deletecomment });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Error while deleting comment" });
+    }
+}
 
 module.exports={
-    getComments,getCommentofUser,postComments
+    getComments,getCommentofPost,postComments,getCommentById,deleteComments
 }
