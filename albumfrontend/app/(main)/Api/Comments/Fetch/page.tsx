@@ -1,3 +1,6 @@
+//not in use
+
+
 "use client"
 
 import Button from "@/Components/Button";
@@ -38,7 +41,7 @@ const Post = () => {
           className='flex p-2 w-48 justify-end items-center mt-10'>
             <Button
               type="submit"
-              title="Create User"
+              title="Create Comment"
               icon={<Add />}
               variant="btn_green"
             />

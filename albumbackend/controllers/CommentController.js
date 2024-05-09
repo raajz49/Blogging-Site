@@ -21,8 +21,8 @@ const getCommentById = async (req, res) => {
 
         const comment = await prisma.comment.findFirst({
             where: {
-                id: commentId,
-                postId: postId
+                 id: commentId,
+                // postId: postId
             }
         });
 
@@ -87,6 +87,22 @@ const deleteComments = async (req, res) => {
     }
 }
 
+const putComments=async(req,res)=>{
+    try {
+        const id=parseInt(req.params.id);
+        const postId=parseInt(req.params.postId);
+        const newTitle=req.body.title
+        const newDescp=req.body.description
+        const updatedcomment=await prisma.comment.update({
+            where:{id:id},
+            data: {  description:newDescp,title:newTitle }
+    })
+        res.json(updatedcomment)
+    } catch (error) {
+       console.error()
+    }
+}
+
 module.exports={
-    getComments,getCommentofPost,postComments,getCommentById,deleteComments
+    getComments,getCommentofPost,postComments,getCommentById,deleteComments,putComments
 }

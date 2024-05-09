@@ -1,3 +1,5 @@
+//not in use
+
 "use client"
 
 import { useRouter } from "next/navigation"
@@ -51,7 +53,7 @@ const CreateComments = ({ params }: { params: Params }) => {
                 throw new Error("Failed to create post");
               }
           
-              router.push(`/Api/Comments/Fetch/${params}`);
+              router.back()
             } catch (error) {
               setError("Something went wrong");
             }

@@ -1,3 +1,6 @@
+//in use
+
+
 "use client"
 
 import { useRouter } from "next/navigation"
@@ -33,9 +36,9 @@ const CreateComments = ({ params }: { params: Params })=> {
             setError(null);
 
 
-
+            
            try {
-        
+           
             const response= await fetch(`http://localhost:3001/comments/${params.id}`,{
               method: "POST",
               headers: {
@@ -47,7 +50,8 @@ const CreateComments = ({ params }: { params: Params })=> {
                 throw new Error("Failed to create post");
               }
           
-              router.push(`/Api/Comments/Fetch/${params.id}`);
+              // router.push(`/Api/Comments/Fetch/${params.id}`);
+              router.back()
             } catch (error) {
               setError("Something went wrong");
             }

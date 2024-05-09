@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
+import LoginForm from './(auth)/Form/login/page'
 
-import LoginForm from './Form/login/page'
 const Home = () => {
   return (
     // <div className='flex flex-row justify-center items-center h-screen gap-10'>
@@ -21,7 +21,7 @@ const Home = () => {
       
     // </div>
     // </div>
-    <LoginForm />
+<LoginForm />
   )
 }
 

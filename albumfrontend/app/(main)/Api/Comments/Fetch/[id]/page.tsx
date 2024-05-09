@@ -1,3 +1,6 @@
+//in use
+
+
 "use client"
 
 import Button from "@/Components/Button";
@@ -38,6 +41,19 @@ const Post = ({params}:{params:Params}) => {
     };
     fetchData();
          }, [])
+
+         const handleDelete=async(id:number)=>{
+          try {
+            await fetch(`http://localhost:3001/comments/${id}`, {
+              method: "DELETE",
+            });
+            setComments(prevData => prevData.filter(comment => comment.id !== id));
+          } catch (error) {
+            console.error("Failed to delete post. Please try again.");
+          }
+         }
+
+
   return (
     
       <div>
@@ -45,7 +61,7 @@ const Post = ({params}:{params:Params}) => {
           <Link href={`/Api/Comments/Create/${params.id}`} className='flex p-2 w-48 justify-end items-center mt-10'>
             <Button
               type="submit"
-              title="Create User"
+              title="Create Comment"
               icon={<Add />}
               variant="btn_green"
             />
@@ -66,13 +82,14 @@ const Post = ({params}:{params:Params}) => {
              <div>{comment.description}</div></h6>
 
              <div className='flex flex-row  gap-3 border-2  rounded-xl border-blue-900 p-1 '>
+              <Link href={`/Api/Comments/Edit/${comment.id}`}>
           <Button
          type="submit"
          title="Edit"
          icon={<Edit/>}
          variant="btn_blue"
          />
-      {/* </Link> */}
+   </Link>
 
             <div className='rounded-xl p-1 px-2'>
           <Button
@@ -80,7 +97,7 @@ const Post = ({params}:{params:Params}) => {
            title="Delete"
            icon={<Delete/>}
            variant="btn_red"
-          // onClick={()=>handleDelete(user.id)} 
+          onClick={()=>handleDelete(comment.id)} 
            />
           </div>
           </div>
