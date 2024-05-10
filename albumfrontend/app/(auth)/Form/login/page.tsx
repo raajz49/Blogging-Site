@@ -4,27 +4,38 @@
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useState } from 'react';
+import Loading from '@/Components/Loading';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('');
   const router = useRouter();
 
+
+  
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
+
       const response = await fetch('http://localhost:3001/user/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        
         body: JSON.stringify({ email, password }),
-      });
-
+        
+      }
+    );
+      
+      setLoading(false)
       if (response.ok) {
         const data = await response.json();
+     
         const token = data.token;
         console.log(token)
 
@@ -34,27 +45,40 @@ const LoginForm = () => {
         // Fetch user's posts using the token
         
          
-        router.push('/Api/Posts/Fetch');
+        router.push('/Api/Locate');
+          setLoading(true)
+       
       
       } else {
+        
         setError('Invalid email or password');
+        setLoading(false)
       }
     } catch (error) {
       console.error('Error occurred:', error);
       setError('Something went wrong');
+     
+    }finally {
+      setLoading(false); // Set loading to false after the request completes or an error occurs
     }
+    
   };
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
-      </div>
+    <div className="min-h-screen bg-gray-100 flex flex-col 
+    justify-center py-12 sm:px-6 lg:px-8
+    bg-[url('/passwordbg.jpg')] bg-cover bg-center ">
+       {loading ? (
+      <Loading />
+      ) : (
+      <div className="sm:mx-auto sm:w-full sm:max-w-md   bg-[url('/passwordbg.jpg')] bg-cover bg-center bg-opacity-30 p-10 rounded-xl">
+        <h2 className="text-center text-3xl font-extrabold text-gray-200">Sign in to your account</h2>
+    
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <div className=" py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="email" className="block text-lg font-serif  text-gray-200">
                 Email address
               </label>
               <div className="mt-1">
@@ -66,13 +90,15 @@ const LoginForm = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 text-black border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="appearance-none block w-full px-3 py-2 text-white border-b-2 rounded-md shadow-sm
+                   placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 
+                   sm:text-sm bg-transparent text-2xl"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="password" className="block text-lg font-serif  text-gray-200">
                 Password
               </label>
               <div className="mt-1">
@@ -84,7 +110,9 @@ const LoginForm = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border text-black border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="  px-3 py-2 border-b-2 bg-transparent text-white text-2xl  
+                  rounded-md shadow-sm placeholder-gray-400 focus:outline-none
+                   focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
               </div>
             </div>
@@ -93,7 +121,7 @@ const LoginForm = () => {
 
             <div className="flex items-center justify-between">
               <div className="text-sm">
-                <a href="/Form/ForgotPassword" className="font-medium text-indigo-600 hover:text-indigo-500">
+                <a href="/Form/ForgotPassword" className="font-medium text-gray-300 hover:text-gray-500">
                   Forgot your password?
                 </a>
               </div>
@@ -107,12 +135,14 @@ const LoginForm = () => {
                 Sign in
               </button>
             </div>
-            <div className="flex justify-end font-medium text-indigo-600 hover:text-indigo-500">
+            <div className="flex justify-end font-medium text-gray-300 hover:text-gray-400">
               <Link href="/Form/Registration">Don't have an account?</Link>
             </div>
           </form>
         </div>
       </div>
+      </div>
+      )}
     </div>
   );
 };

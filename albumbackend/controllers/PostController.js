@@ -36,6 +36,7 @@ const getPosts = asyncwrapper(async(req,res)=>{
             res.json(postById);
         } catch (error) {
             res.json({ success: false, message: "Error in getting post by Id" });
+            
         }
     }
     

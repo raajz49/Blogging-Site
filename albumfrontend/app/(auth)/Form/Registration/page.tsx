@@ -72,10 +72,12 @@ const RegistrationForm = () => {
     
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-center p-16 sm:px-6 lg:px-8">
-    <div className='flex justify-center items-center flex-col  '>
+    <div className="min-h-screen bg-gray-100 flex flex-col justify-end
+    bg-[url('/regpage.avif')] bg-cover bg-center  p-16 px-6 lg:px-8">
+      <div className="w-full  lg:ml-[25rem] ">
+    <div className='flex justify-end items-center flex-col  '>
       <h2 className='text-5xl font-extrabold  text-black mb-6'>Sign Up</h2>
-      <form onSubmit={handleSubmit} className='flex gap-3 flex-col w-1/3'>
+      <form onSubmit={handleSubmit} className='flex gap-3 flex-col w-[21rem] md:w-1/2 lg:w-1/3'>
        
        <label htmlFor="firstName" className="label_gray">FirstName</label>
         <input type="text"   
@@ -133,15 +135,15 @@ const RegistrationForm = () => {
           onChange={handleInputChange}
           className='input_tag' />
 
-<p className="text-indigo-600 hover:text-indigo-500">
+<p className="text-black hover:text-indigo-900">
   Already have an account?{" "}
-  <Link href="/Form/login" className="text-blue-800 hover:underline hover:text-red-600 ">
+  <Link href="/Form/login" className="text-blue-900 hover:underline hover:text-red-600 ">
     Sign in
   </Link>
 </p>
 
         <button 
-          className='bg-blue-600 text-white mt-5 px-4 py-1 rounded-md cursor-pointer'
+          className='bg-blue-900 text-white mt-5 px-4 py-1 h-10 rounded-md cursor-pointer'
           type="submit"
         >
           {loading ? (<p>Loading....</p>) : (<p>Add</p>)}
@@ -151,6 +153,7 @@ const RegistrationForm = () => {
 
       </form>
       {error && <p className="text-red-500">Error: {error}</p>}
+    </div>
     </div>
     </div>
   );

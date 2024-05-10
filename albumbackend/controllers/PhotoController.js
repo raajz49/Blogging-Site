@@ -33,19 +33,65 @@ const getphotoofalbum=async (req, res) => {
     
 };
 
-const postPhoto=async(req,res)=>{
+const getPhotoById = async (req, res) => {
     try {
-        const newPhotos=await prisma.photo.createMany({data:req.body});
-    res.json(newPhotos)
+        const albumId = parseInt(req.params.albumId); 
+        const photoId = parseInt(req.params.photoId); 
 
+        const photo = await prisma.photo.findFirst({
+            where: {
+                 id: photoId,
+                // postId: postId
+            }
+        });
+
+        if (photo) {
+            res.json(photo);
+        } else {
+            res.status(404).json({ success: false, message: 'Photo not found' });
+            
+        }
     } catch (error) {
-        res.json({success:false,message:"Error in posting new photos "})
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
     }
-   
 };
 
 
+const postPhoto=async (req, res) => {
+    try {
+        const albumId = parseInt(req.params.id);
+        
+        const newPhoto = await prisma.photo.create({
+            data: {
+                albumId: albumId,
+                ...req.body 
+            }
+        });
+        res.json(newPhoto);
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Error while posting photo" });
+    }
+}
+
+const deletePhoto=async(req,res)=>{
+    try {
+        const id=parseInt(req.params.id);
+        const deletedPhoto=await prisma.photo.delete({
+            where:{
+                id:id
+            }
+           
+        })
+        res.json(deletedPhoto)
+    } catch (error) {
+        res.json({status:false,message:"Error in delete photo"})
+    }
+  
+}
+
+
 module.exports={
-getphoto,getphotoofalbum,postPhoto
+getphoto,getphotoofalbum,postPhoto,getPhotoById,deletePhoto
   }
   

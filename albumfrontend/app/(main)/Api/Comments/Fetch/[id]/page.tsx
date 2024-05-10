@@ -4,6 +4,7 @@
 "use client"
 
 import Button from "@/Components/Button";
+import Loading from "@/Components/Loading";
 import { Add, Delete, Edit } from "@mui/icons-material";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -24,18 +25,22 @@ interface Params {
 const Post = ({params}:{params:Params}) => {
     const [comments,setComments]=useState<Comment[]>([]);
     const [error,setError]=useState<String |number| null>(null);
+    const [loading,setLoading]=useState(true)
 
     useEffect(()=>{
 
         const fetchData=async()=>{
         try {
+            setLoading(true)
             const response= await fetch(`http://localhost:3001/comments/posts/${params.id}`)
         if(!response.ok){
           throw new Error("Failed to fetch"); 
         }
         const data = await response.json();
         setComments(data)
+        setLoading(false)
      } catch (error) {
+            setLoading(false)
             setError("Failed to load")
         }
     };
@@ -68,6 +73,10 @@ const Post = ({params}:{params:Params}) => {
             
           </Link>
         </div>
+        {loading?(
+          <Loading />
+        ):(
+          <div>
         {comments?.length> 0 ?(  
     <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-8 lg-p-20 " >
       {comments.map((comment)=>(
@@ -110,6 +119,8 @@ const Post = ({params}:{params:Params}) => {
      ):(
       <p className="flex justify-center items-center font-serif text-red-600 text-5xl h-screen">No Comments Found</p>
     )}
+    </div>
+  )}
     </div>
   )
 

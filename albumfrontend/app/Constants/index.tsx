@@ -1,10 +1,10 @@
-import { Comment, Home, Logout, Pages } from "@mui/icons-material";
+import { Comment, Home, Logout, Pages, PhotoLibrary } from "@mui/icons-material";
 
 // Define navigation links and corresponding icons
 export const NAV_LINKS = [
-  { href: '/Api/Comments/Fetch/{params}', key: 'home', label: 'Home', icon: <Home /> },
-  { href: '/', key: 'posts', label: 'posts', icon: <Pages/> },
-  { href: '/', key: 'comments', label: 'comments', icon: <Comment /> },
+  { href: '/Api/Locate', key: 'home', label: 'Home', icon: <Home /> },
+  { href: '/Api/Posts/Fetch', key: 'posts', label: 'posts', icon: <Pages/> },
+  { href: '/Api/Albums/Fetch', key: 'comments', label: 'Album', icon: <PhotoLibrary /> },
   {
     href: '/',
     key: 'logout',

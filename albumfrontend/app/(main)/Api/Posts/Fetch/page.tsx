@@ -3,6 +3,7 @@
 
 "use client"
 import Button from "@/Components/Button";
+import Loading from "@/Components/Loading";
 import { Add, AllInbox, Delete, Edit, Logout } from "@mui/icons-material";
 import Image from "next/image";
 import Link from "next/link";
@@ -31,14 +32,18 @@ async function getData() {
 
 const Post = () => {
   const [posts, setPosts] = useState<Post[]>([]);
+  const[loading,setLoading]=useState(true)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true)
         const result = await getData();
         setPosts(result);
+        setLoading(false)
       } catch (error) {
         console.error('Error fetching data:', error);
+        setLoading(false)
       }
     };
     fetchData();
@@ -70,32 +75,28 @@ const Post = () => {
             icon={<Add />}
             variant="btn_green"
           />
-        </Link>
-
-        <Link href={`/Form/login`} className='flex p-1 w-48 items-center mt-10'>
-          <Button
-            type="submit"
-            title="Logout"
-            icon={<Logout />}
-            variant="btn_logout"
-          />
-        </Link>
+        </Link> 
       </div>
 
       {posts?.length > 0 ? (
         <div>
-          <div className="flex justify-center items-center  mx-auto mt-[-10px]  mb-3 rounded-full">
+          {loading ? (
+            <Loading />
+          ):(
+            <div>
+          <div className="flex justify-center items-center  mx-auto mt-[-14px] mb-3">
             <Image
               src={posts[0].user.photoUrl}
-              height="50"
+              height="500"
               width="400"
               alt="GFG logo served from external URL"
-              className="rounded-full h-[15rem] w-[15rem]"
+              className="rounded-full h-56 w-56"
             />
           </div>
           <div className=" flex items-center flex-col mr-10"> 
           <p className="text-lg font-bold text-white ml-10 mt-[-10px] p-2 underline">UserId: {posts[0].userId}</p>
           <p className="text-lg font-bold text-white ml-10 mt-[-10px] p-2" >Hi I'm {posts[0].user.firstName}  {posts[0].user.lastName}</p>
+          <p className="text-lg font-bold text-white ml-10 mt-[-14px] p-2">And these are my posts</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-8 lg-p-20">
             {posts.map((post) => (
@@ -131,8 +132,11 @@ const Post = () => {
                   </Link>
                 </div>
               </div>
+              
             ))}
+            </div>
           </div>
+          )}
         </div>
       ) : (
         <p>No post available</p>
