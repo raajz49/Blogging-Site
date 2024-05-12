@@ -11,6 +11,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('');
+  // const [isAdmin, setIsAdmin] = useState(false);
   const router = useRouter();
 
 
@@ -35,20 +36,26 @@ const LoginForm = () => {
       setLoading(false)
       if (response.ok) {
         const data = await response.json();
-     
+        
         const token = data.token;
-        console.log(token)
-
+        const isAdmin = data.user.role === 'ADMIN';
+        // console.log(token)
+        // console.log('isAdmin:', isAdmin);
         // Store token in localStorage
         localStorage.setItem('token', token);
+        localStorage.setItem('isAdmin', isAdmin.toString());
 
         // Fetch user's posts using the token
         
          
-        router.push('/Api/Locate');
+         
+
+        if(isAdmin){          
+        router.push('Api/Users/Fetch')
           setLoading(true)
-       
-      
+        }else{
+         router.push('Api/Locate')
+        }
       } else {
         
         setError('Invalid email or password');

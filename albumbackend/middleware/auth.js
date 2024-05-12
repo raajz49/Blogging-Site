@@ -28,8 +28,12 @@ const authMiddleWare = async (req ,res, next) => {
     }
 
     // to attach the user to the current request object
+    if (user.role==='ADMIN' || user.id ===payload.userId){
     req.user = user;
     next();
+    }else{
+      return res.json({status:false,message:"unauthorzed access3"})
+    }
   } catch (error) {
     return res.json({status:false,message:"Unauthorized access3"})
   }

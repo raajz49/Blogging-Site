@@ -90,7 +90,7 @@ const Post = () => {
               height="500"
               width="400"
               alt="GFG logo served from external URL"
-              className="rounded-full h-56 w-56"
+              className="rounded-full h-56 w-56 object-cover object-center"
             />
           </div>
           <div className=" flex items-center flex-col mr-10"> 

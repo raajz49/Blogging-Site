@@ -89,15 +89,18 @@ const LocateUser = () => {
         <div className='flex justify-center mt-10 '>
         {posts.length>0 && (
             <div> 
-                <div className='flex justify-center'>
-        <Image
-              src={posts[0].user.photoUrl}
-              height="500"
-              width="400"
-              alt="GFG logo served from external URL"
-              className="rounded-full h-56 w-56 "
-            />
-            </div>
+               <div className='flex justify-center'>
+  <div className="overflow-hidden h-56 w-68 rounded-full">
+    <Image
+      src={posts[0].user.photoUrl}
+      height="100"
+      width="200"
+      alt="GFG logo served from external URL"
+      className="object-cover object-center"
+    />
+  </div>
+</div>
+
             <div className='flex flex-col justify-center'>
             <p className='text-2xl font-sans font-bold text-gray-300 mt-6 mx-auto'>Hi I'm {posts[0].user.firstName} {posts[0].user.lastName}</p>
             <p className="text-2xl font-sans font-bold text-gray-300  mx-auto">These are my Posts and Albums</p>

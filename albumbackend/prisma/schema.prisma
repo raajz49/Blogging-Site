@@ -9,6 +9,11 @@ datasource db {
 
 //here User,Post,Comments--->Multiple users has multiple posts and multiple post has multiple comments
 
+enum Role {
+    ADMIN
+    USER
+}
+
 model User {
     id        Int      @id @unique @default(autoincrement())
     firstName String
@@ -18,6 +23,7 @@ model User {
     age       Int
     address   String
     photoUrl  String   @db.VarChar(1000)
+    role      Role     @default(USER)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     post      Post[]
