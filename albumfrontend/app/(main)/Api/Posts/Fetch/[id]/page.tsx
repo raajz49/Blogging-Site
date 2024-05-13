@@ -22,7 +22,7 @@ const Post = ({ params }: { params: Params }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/posts/user/${params.id}`);
+        const response = await fetch(`http://localhost:3001/posts/${params.id}`);
 
         if (!response.ok) {
           throw new Error("Failed to fetch");

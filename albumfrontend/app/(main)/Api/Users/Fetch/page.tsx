@@ -1,4 +1,6 @@
 "use client"
+
+// For User component
 import React, { useState, useEffect } from 'react';
 import Button from '@/Components/Button';
 import Loading from '@/Components/Loading';
@@ -54,24 +56,21 @@ const Users = () => {
       }
     };
 
-    const isAdmin = localStorage.getItem('isAdmin') === 'true';
-    if (isAdmin) {
-  
-      fetchData();
-    } else {
-      setError("You are not authorized to access this page.");
-      setLoading(false);
-    }
+    fetchData();
   }, []);
 
   const handleDelete = async (id: number) => {
     try {
-      await fetch(`http://localhost:3001/user/${id}`, { method: "DELETE" });
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("Token not found");
+      }
+      await fetch(`http://localhost:3001/user/${id}`, { method: "DELETE", headers: { Authorization: token } });
       setData(prevData => prevData.filter(user => user.id !== id));
     } catch (error) {
       setError("Failed to delete user. Please try again.");
     }
-  }
+  };
 
   return (
     <div>
@@ -91,24 +90,22 @@ const Users = () => {
       )}
 
       {data?.length > 0 ? (
-        
         <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-8">
           {data.map((user) => (
-            
             <div className=' border-2 border-b-gray-600 px-2 p-8' key={user.id}>
               <div className='ml-10'>
-              <Image 
-                src={user.photoUrl}
-                height="100"
-                width="300"
-                alt="User Photo"
-                priority={true}
-                className=" rounded-xl h-[22rem] w-[22rem] object-cover object-center"
-              /> 
-              <p className='mb-2'><strong>Name:</strong> {user.firstName} {user.lastName}</p>
-              <p className='mb-2'><strong>Email:</strong> {user.email}</p>
-              <p className='mb-2'><strong>Age:</strong> {user.age}</p>
-              <p className='mb-2'><strong>Address:</strong> {user.address}</p>
+                <Image 
+                  src={user.photoUrl}
+                  height="100"
+                  width="300"
+                  alt="User Photo"
+                  priority={true}
+                  className=" rounded-xl h-[22rem] w-[22rem] object-cover object-center"
+                /> 
+                <p className='mb-2'><strong>Name:</strong> {user.firstName} {user.lastName}</p>
+                <p className='mb-2'><strong>Email:</strong> {user.email}</p>
+                <p className='mb-2'><strong>Age:</strong> {user.age}</p>
+                <p className='mb-2'><strong>Address:</strong> {user.address}</p>
               </div>
               <div className='flex flex-row  justify-between gap-3 border-2  rounded-xl border-blue-900 p-1 '>
                 <Link href={`/Api/Users/Edit/${user.id}`}>
@@ -119,7 +116,6 @@ const Users = () => {
                     variant="btn_blue"
                   />
                 </Link>
-
                 <div>
                   <Button
                     type="submit"
@@ -129,8 +125,7 @@ const Users = () => {
                     onClick={() => handleDelete(user.id)}
                   />
                 </div>
-
-                <Link href={`/Api/Posts/Fetch/${user.id}`}>
+                <Link href={`/Api/Posts/Fetch`}>
                   <Button
                     type="submit"
                     title="Post"

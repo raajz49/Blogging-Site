@@ -51,7 +51,7 @@ const LoginForm = () => {
          
 
         if(isAdmin){          
-        router.push('Api/Users/Fetch')
+        router.push('Api/AdminDashboard')
           setLoading(true)
         }else{
          router.push('Api/Locate')

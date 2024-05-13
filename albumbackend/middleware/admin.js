@@ -1,3 +1,8 @@
+const { PrismaClient } = require("@prisma/client");
+const jwt = require('jsonwebtoken');
+const { JWT_SECRET } = require('../secret');
+
+const prisma = new PrismaClient();
 
 
 

@@ -5,18 +5,42 @@ const prisma = new PrismaClient();
 
 
 const getPosts = asyncwrapper(async(req,res)=>{
-  
-        const allPosts = await prisma.post.findMany();
-        res.json(allPosts)
+        
+    try{
+        const allPosts = await prisma.post.findMany({
+      
+            select: {
+            id: true,
+            title: true,
+            description: true,
+            userId:true,
 
-  
-       
+            user: {
+                select: {
+                    photoUrl: true,
+                    firstName:true,
+                    lastName:true,
+                    
+                }
+            }
+        }
     })
+    
+    res.json(allPosts);
+} catch (error) {
+    res.status(500).json({ success: false, message: "Error in getting posts of user" });
+}
+})
+
+
 
     const getPostById = async (req, res) => {
+      
         try {
+            
             const userId = req.user.UserId;
             const id = parseInt(req.params.id);
+         
                         
             const postById = await prisma.post.findFirst({
                 where: {

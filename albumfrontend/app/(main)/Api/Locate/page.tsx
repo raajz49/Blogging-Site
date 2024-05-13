@@ -39,7 +39,7 @@ async function getAlbumData() {
 
 async function getPostData() {
   const token = localStorage.getItem('token');
-  const res = await fetch("http://localhost:3001/posts", {
+  const res = await fetch("http://localhost:3001/posts/user", {
     method: 'GET',
     headers: { 'Authorization': token as string },
   });
