@@ -12,6 +12,7 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.15",
+    "@mui/material": "^5.15.17",
     "@nextui-org/spinner": "^2.0.28",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -21,9 +22,11 @@
     "react": "^18",
     "react-dom": "^18",
     "react-loader-spinner": "^6.1.6",
+    "react-toastify": "^10.0.5",
     "style-loader": "^4.0.0",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@types/node": "^20",

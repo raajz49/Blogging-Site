@@ -4,36 +4,15 @@
 "use client"
 import Button from "@/Components/Button";
 import Loading from "@/Components/Loading";
-import { Add, AllInbox, Delete, Edit, Logout, Photo } from "@mui/icons-material";
-import { Users } from "lucide-react";
-import Image from "next/image";
+import {  AllInbox, Delete, Edit,Photo } from "@mui/icons-material";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import UserFetch from "../Users/Fetch/page";
+import useAdminStore from "@/Components/stores/UseAdminStore";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-interface Post {
-  id: number;
-  title: string;
-  description: string;
-  userId: string;
-  user: {
-    firstName: string;
-    lastName: string;
-    photoUrl: string;
-  };
-}
-
-interface Albums{
-  id: number;
-  title: string;
-  userId: string;
-  user: {
-    firstName: string;
-    lastName: string;
-    photoUrl: string;
-  };
-}
 
 async function getAlbumData (){
   const token = localStorage.getItem('token');
@@ -57,9 +36,8 @@ async function getData() {
 }
 
 const Admin = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [albums,setAlbum]=useState<Albums[]>([]);
-  const[loading,setLoading]=useState(true)
+  const {posts,albums,loading,setPosts,setAlbum,setLoading,deleteAlbum,deletePost}=useAdminStore();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -80,7 +58,7 @@ const Admin = () => {
     const fetchAlbumData = async () => {
         try {
           setLoading(true)
-          const result = await getData();
+          const result = await getAlbumData();
           setAlbum(result);
           setLoading(false)
         } catch (error) {
@@ -93,41 +71,71 @@ const Admin = () => {
     }, []);
 
 
-  const handleDelete = async (id: number) => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        throw new Error("Token not found");
+    const handleDelete = async (postId: number) => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          throw new Error("Token not found");
+        }
+    
+        // Check if the post has comments
+        const response = await fetch(`http://localhost:3001/comments/posts/${postId}`)
+        const comments = await response.json();
+    
+        // If comments exist, ask for confirmation
+        if (comments.length > 0) {
+        toast.error("This post contains comments. You can't delete it.");
+        return 
+         
+          
+        }
+            deletePost(postId);
+    
+        await fetch(`http://localhost:3001/posts/${postId}`, {
+          method: "DELETE",
+          headers: { Authorization: token },
+        });
+    
+        // window.alert("Post deleted successfully");
+        toast.success("This post deleted successfully!");
+      } catch (error) {
+        console.error("Failed to delete post. Please try again.");
+        window.alert("Failed to delete post. Please try again.");
       }
-      await fetch(`http://localhost:3001/posts/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: token },
-      });
-      setPosts(prevData => prevData.filter(post => post.id !== id));
-    } catch (error) {
-      console.error("Failed to delete post. Please try again.");
-    }
-  };
+    };
+    
 
-  const handleDelete1=async(id:number)=>{
+  const handleDelete1=async(albumId:number)=>{
     try{
       const token=localStorage.getItem("token");
       if(!token){
         throw new Error("Token not found");
       }
-      await fetch(`http://localhost:3001/albums/${id}`, {
+      const response = await fetch(`http://localhost:3001/photos/albums/${albumId}`);
+        const photos=await response.json();
+
+        if(photos.length>0){
+         toast.error("This post contains photos. You can't delete it")
+          return;
+        }
+
+        //if everything goes fine
+         deleteAlbum(albumId)
+      await fetch(`http://localhost:3001/albums/${albumId}`, {
         method: "DELETE",
         headers: { Authorization: token },
       });
-      setAlbum(prevData=>prevData.filter(album=>album.id !==id));
+      toast.success("Album deleted successfully");
     }catch(error){
-      console.error("Failed to delete post. Please try again.");
+      console.error("Failed to delete album. Please try again.");
+      window.alert("Failed to delete album. Please try again.");
     }
   }
 
   return (
     <div>
-
+        <ToastContainer/> 
+      <div>
       {posts?.length > 0 ? (
         <div className="mt-20">
           {loading ? (
@@ -238,6 +246,7 @@ const Admin = () => {
     </div>
 
       </div>
+    </div>
     </div>
   );
 };
