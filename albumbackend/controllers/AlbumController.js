@@ -68,7 +68,6 @@ const getAlbumOfUser = async (req, res) => {
     const userId = req.user.id;
     let albumsData = req.body;
 
-    // Check if req.body is an array, if not, convert it to an array
     if (!Array.isArray(albumsData)) {
       albumsData = [albumsData];
     }

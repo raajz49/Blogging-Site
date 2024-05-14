@@ -37,7 +37,7 @@ async function getData() {
   }
 }
 
-const Users = () => {
+const UserFetch= () => {
   const [data, setData] = useState<User[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -146,4 +146,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default UserFetch;

@@ -3,7 +3,20 @@ const { PrismaClient } = require("@prisma/client");
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../secret');
 
+
+
 const prisma = new PrismaClient();
+
+const restrictTo = (...roles) => {
+  return (req, res, next) => {
+    // roles ['admin', 'lead-guide']. role='user'
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({ status: false, message: "Unauthorized access1" });
+    }
+
+    next();
+  };
+};
 
 const authMiddleWare = async (req, res, next) => {
   // Extract the token
@@ -29,12 +42,13 @@ const authMiddleWare = async (req, res, next) => {
     if (user.role === 'ADMIN' || user.id === payload.userId) {
       req.user = user;
       next();
-    } else {
+    }else{ 
       return res.json({ status: false, message: "Unauthorized access3" });
     }
+
   } catch (error) {
     return res.json({ status: false, message: "Unauthorized access4" });
   }
 };
 
-module.exports = { authMiddleWare };
+module.exports = { authMiddleWare,restrictTo };

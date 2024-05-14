@@ -14,7 +14,6 @@ const adminMiddleWare = async (req, res, next) => {
             next();
         } else {
             res.json({ status: false, message: "Unauthorized access of admin" });
-           
         }
     } catch (error) {
         console.error("Error in adminMiddleWare:", error);

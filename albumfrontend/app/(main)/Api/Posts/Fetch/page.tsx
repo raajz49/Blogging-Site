@@ -95,13 +95,18 @@ const Post = () => {
           </div>
           <div className=" flex items-center flex-col mr-10"> 
           <p className="text-lg font-bold text-white ml-10 mt-[-10px] p-2 underline">UserId: {posts[0].userId}</p>
+          
           <p className="text-lg font-bold text-white ml-10 mt-[-10px] p-2" >Hi I'm {posts[0].user.firstName}  {posts[0].user.lastName}</p>
           <p className="text-lg font-bold text-white ml-10 mt-[-14px] p-2">And these are my posts</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-8 lg-p-20">
             {posts.map((post) => (
               <div key={post.id} className="border-2 border-red-400 py-10 px-5">
+               
+               <Link
+                href={`/Api/PostDeta/${post.id}`}>
                 <p className="underline mb-3"><strong>Id</strong> {post.id}</p>
+                </Link>
                 <h6><strong>Title</strong><div className="mb-3">{post.title}</div></h6>
                 <h6 className="mb-2"><strong>Description:</strong><div>{post.description}</div></h6>
                 <div className='flex flex-row justify-between gap-3 border-2 rounded-xl border-blue-900 p-1 '>

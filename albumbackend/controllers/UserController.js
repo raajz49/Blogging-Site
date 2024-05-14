@@ -10,8 +10,10 @@ const compareSync = bcrypt.compareSync;
 
 const getUser = async (req, res) => {
     try {
-        const allUsers = await prisma.user.findMany();
-        res.json(allUsers);
+       
+            const allUsers = await prisma.user.findMany();
+            res.json(allUsers);
+       
     } catch (error) {
         console.error('Error in fetching user:', error);
         res.status(500).json({ success: false, message: "Error in fetching user" });

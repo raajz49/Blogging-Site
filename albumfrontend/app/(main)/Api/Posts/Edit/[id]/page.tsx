@@ -98,7 +98,7 @@ const EditUser = ({ params }: { params: Params }) => {
 
   return (
     <div className="flex justify-center items-center flex-col mt-32">
-      <h2 className="text-2xl font-bold my-8">Edit User</h2>
+      <h2 className="text-2xl font-bold my-8">Edit Post</h2>
 
       <form onSubmit={handleSubmit} className="flex gap-3 flex-col w-1/3">
         <input

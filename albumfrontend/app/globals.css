@@ -43,6 +43,10 @@ body {
     @apply   bg-green-500 rounded-xl text-white
   }
 
+  .btn_green1  { 
+    @apply  text-green-500 rounded-xl
+  }
+
   .btn_logout{
     @apply bg-red-500 hover:bg-red-600 text-white font-bold  rounded-xl
   }
@@ -59,10 +63,18 @@ body {
   .btn_blue{
     @apply bg-blue-600 rounded-xl text-white
   }
+
+  .btn_blue1{
+    @apply text-blue-600 rounded-xl
+  }
+
   .btn_red{
     @apply bg-red-400  text-white  rounded-xl
   }
   
+  .btn_red1{
+    @apply  text-red-600  rounded-xl
+  }
   .label_gray{
     @apply text-gray-800 font-serif font-bold
   }

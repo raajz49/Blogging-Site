@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 
     async function getData (){
       const token = localStorage.getItem('token');
-    const res= await fetch("http://localhost:3001/albums",
+    const res= await fetch("http://localhost:3001/albums/user",
       {
         method:'GET',
         headers:{'Authorization':token as string}
