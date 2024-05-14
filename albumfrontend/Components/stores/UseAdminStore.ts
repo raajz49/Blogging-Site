@@ -41,11 +41,11 @@ const useAdminStore = create<AdminState>((set) => ({
   setPosts: (posts) => set({ posts }),
   setAlbum: (albums) => set({ albums }),
   setLoading: (loading) => set({ loading }),
-deletePost:(postId) =>
+    deletePost:(postId) =>
     set((state)=>({
         posts:state.posts.filter((post)=>post.id !==postId),
     })),
-deleteAlbum:(albumId) =>
+    deleteAlbum:(albumId) =>
     set((state)=>({
         albums:state.albums.filter((album)=>album.id !==albumId )
     }))

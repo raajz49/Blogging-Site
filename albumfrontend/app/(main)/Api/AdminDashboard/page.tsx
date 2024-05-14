@@ -84,7 +84,9 @@ const Admin = () => {
     
         // If comments exist, ask for confirmation
         if (comments.length > 0) {
-        toast.error("This post contains comments. You can't delete it.");
+        toast.warn("This post contains comments. You can't delete it.", {
+          theme: "colored"
+        });
         return 
          
           
@@ -97,7 +99,9 @@ const Admin = () => {
         });
     
         // window.alert("Post deleted successfully");
-        toast.success("This post deleted successfully!");
+        toast.success("This post deleted successfully!", {
+          theme: "colored"
+        });
       } catch (error) {
         console.error("Failed to delete post. Please try again.");
         window.alert("Failed to delete post. Please try again.");
@@ -115,7 +119,9 @@ const Admin = () => {
         const photos=await response.json();
 
         if(photos.length>0){
-         toast.error("This post contains photos. You can't delete it")
+         toast.warn("This post contains photos. You can't delete it", {
+          theme: "colored"
+        })
           return;
         }
 
@@ -125,7 +131,9 @@ const Admin = () => {
         method: "DELETE",
         headers: { Authorization: token },
       });
-      toast.success("Album deleted successfully");
+      toast.success("Album deleted successfully", {
+        theme: "colored"
+      });
     }catch(error){
       console.error("Failed to delete album. Please try again.");
       window.alert("Failed to delete album. Please try again.");

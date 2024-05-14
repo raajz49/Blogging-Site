@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useState } from 'react';
 import Loading from '@/Components/Loading';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -50,14 +52,24 @@ const LoginForm = () => {
          
          
 
-        if(isAdmin){          
+        if(isAdmin){   
+          toast.success("Login successfully!");       
         router.push('Api/AdminDashboard')
           setLoading(true)
         }else{
+          toast.success("Login successfully!",
+          {
+            theme: "colored"
+          }
+          );  
          router.push('Api/Locate')
         }
       } else {
-        
+        toast.error("Invalid email or password",
+        {
+          theme: "colored"
+        }
+        );
         setError('Invalid email or password');
         setLoading(false)
       }
@@ -77,7 +89,9 @@ const LoginForm = () => {
        {loading ? (
       <Loading />
       ) : (
-      <div className="sm:mx-auto sm:w-full sm:max-w-md   bg-[url('/passwordbg.jpg')] bg-cover bg-center bg-opacity-30 p-10 rounded-xl">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md   bg-[url('/passwordbg.jpg')] 
+      bg-cover bg-center bg-opacity-30 p-10 rounded-xl">
+          <ToastContainer/> 
         <h2 className="text-center text-3xl font-extrabold text-gray-200">Sign in to your account</h2>
     
 
