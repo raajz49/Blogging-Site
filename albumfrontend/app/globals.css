@@ -48,7 +48,7 @@ body {
   }
 
   .btn_logout{
-    @apply bg-red-500 hover:bg-red-600 text-white font-bold  rounded-xl
+    @apply text-red-500 hover:text-red-600  font-bold  rounded-xl
   }
   .btn_dark_green { 
     @apply  bg-green-900  text-white transition-all hover:bg-black
@@ -78,7 +78,9 @@ body {
   .label_gray{
     @apply text-gray-800 font-serif font-bold
   }
-
+.btn_like{
+  @apply text-[2px] font-extralight hover:text-blue-600
+}
   .input_tag{
     @apply h-12 px-4  rounded-md  text-gray-700 font-bold  border-b-[3px] font-serif
      border-gray-400 focus:border-blue-500 placeholder:text-lg 

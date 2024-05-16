@@ -4,8 +4,8 @@
 "use client"
 import Button from "@/Components/Button";
 import Loading from "@/Components/Loading";
-import { Add, AllInbox, Delete, Edit } from "@mui/icons-material";
-import { EllipsisVertical } from "lucide-react";
+import { Add, AllInbox, Delete, Edit, ThumbUp } from "@mui/icons-material";
+import { EllipsisVertical, MessageSquare, Share, ThumbsUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -24,7 +24,7 @@ interface Post {
 
 async function getData() {
   const token = localStorage.getItem('token');
-  const res = await fetch("http://localhost:3001/posts/user", {
+  const res = await fetch("http://localhost:3001/feed", {
     method: 'GET',
     headers: { 'Authorization': token as string },
   });
@@ -77,32 +77,43 @@ const Post = () => {
             variant="btn_green"
           />
         </Link> 
+
       </div>
 
       {posts?.length > 0 ? (
-        <div>
+        <div className="">
           {loading ? (
             <Loading />
           ):(
-            <div>
-          <div className="flex justify-center items-center  mx-auto mt-[-14px] mb-3">
+            <div className="">
+          {/* <div className="flex flex-col gap-8 bg-gray-800  justify-center items-center p-10 border-2">  */}
+          <div className="flex flex-col gap-8  justify-start p-10">
+          <div className="flex flex-row justify-center items-center   mx-auto  mb-3">
             <Image
               src={posts[0].user.photoUrl}
               height="500"
               width="400"
               alt="GFG logo served from external URL"
-              className="rounded-full h-56 w-56 object-cover object-center"
-            />
+              className="rounded-full h-16 w-16 object-cover object-center"
+                          />
+          <Link href={`/Api/Posts/Create`} >
+          <textarea
+          placeholder="Write Something"
+           className="bg-black border-2 border-white rounded-xl px-3 "
+           />
+           </Link>
+           </div>
+           
           </div>
-          <div className=" flex items-center flex-col mr-10"> 
+          {/* <div className=" flex items-center flex-col mr-10"> 
           <p className="text-lg font-bold text-white ml-10 mt-[-10px] p-2 underline">UserId: {posts[0].userId}</p>
           
           <p className="text-lg font-bold text-white ml-10 mt-[-10px] p-2" >Hi I'm {posts[0].user.firstName}  {posts[0].user.lastName}</p>
           <p className="text-lg font-bold text-white ml-10 mt-[-14px] p-2">And these are my posts</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-8 lg-p-20">
+          </div> */}
+          <div className="flex flex-col gap-8   justify-center items-center p-10">
             {posts.map((post) => (
-              <div key={post.id} className="border-2 border-red-400 py-10 px-5">
+              <div key={post.id} className="border-2 border-gray-400 py-10 flex flex-col md:w-full lg:w-1/2 p-10  ">
                      
              <div className="flex justify-start items-start  ">
             <Image
@@ -127,32 +138,26 @@ const Post = () => {
           </div>
                 <h6><div className=" mt-3 ml-2">{post.title}</div></h6>
                 <h6 className="mb-6 text-[12px] text-gray-300 font-sans font-extralight ml-2"><div>{post.description}</div></h6>
-                <div className='flex flex-row justify-between gap-3 border-2 rounded-xl border-blue-900 p-1 '>
-                  <Link href={`/Api/Posts/Edit/${post.id}`}>
+                <div>
                     <Button
                       type="submit"
-                      title="Edit"
-                      icon={<Edit />}
-                      variant="btn_blue"
+                      title=""
+                      icon={<ThumbsUp />}
+                     variant="btn_like"
                     />
-                  </Link>
-                  <div>
                     <Button
                       type="submit"
-                      title="Delete"
-                      icon={<Delete />}
-                      variant="btn_red"
-                      onClick={() => handleDelete(post.id)}
+                      title=""
+                      icon={<MessageSquare />}
+                     variant="btn_like"
                     />
-                  </div>
-                  <Link href={`/Api/Comments/Fetch/${post.id}`}>
-                    <Button
+                     <Button
                       type="submit"
-                      title="Comments"
-                      icon={<AllInbox />}
-                      variant="btn_green"
+                      title=""
+                      icon={<Share/>}
+                     variant="btn_like"
                     />
-                  </Link>
+
                 </div>
               </div>
               

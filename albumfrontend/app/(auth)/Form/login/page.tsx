@@ -7,6 +7,7 @@ import { useState } from 'react';
 import Loading from '@/Components/Loading';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import DialogBox from '@/Components/dialog';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -93,7 +94,7 @@ const LoginForm = () => {
       bg-cover bg-center bg-opacity-30 p-10 rounded-xl">
           <ToastContainer/> 
         <h2 className="text-center text-3xl font-extrabold text-gray-200">Sign in to your account</h2>
-    
+        
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className=" py-8 px-4 shadow sm:rounded-lg sm:px-10">

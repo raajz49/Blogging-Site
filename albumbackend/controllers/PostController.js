@@ -140,9 +140,36 @@ const getPosts = asyncwrapper(async(req,res)=>{
         }
       };
       
+      const getFeed = async (req, res) => {
+        const userId = req.user.userId;
+        try {
+            // Fetch all posts
+            const allPosts = await prisma.post.findMany({
+                include: {
+                    user: {
+                        select: {
+                            photoUrl: true,
+                            firstName: true,
+                            lastName: true,
+                        },
+                    },
+                },
+            });
+    
+            // Filter out posts created by the current user
+            const filteredPosts = allPosts.filter(post => post.userId !== userId);
+    
+            res.json(filteredPosts);
+        } catch (error) {
+            res.status(500).json({ success: false, message: "Error in getting posts of user" });
+        }
+    };
+    
+          
+            
 
 module.exports={
 
 
-  getPosts,getPostOfUser,putPost, deletePost,Post,getPostById
+  getPosts,getPostOfUser,putPost, deletePost,Post,getPostById,getFeed
 }

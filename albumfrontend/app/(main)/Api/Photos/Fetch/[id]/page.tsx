@@ -72,6 +72,16 @@ const FetchPhoto = ({ params }: { params: Params }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-8 lg:p-20 mt-[-5rem]">
                     {photos.map((photo) => (
                         <div key={photo.id} className="py-10 px-5 bg-white bg-[url('/bg-img1.avif')]  bg-opacity-10 rounded-lg">
+                <div>
+                <Image
+              src={photo.photograph}
+              height="500"
+              width="400"
+              alt="GFG logo served from external URL"
+              className="rounded-full h-16 w-16 object-cover object-center"
+            />
+
+                </div>
                             <p className="underline mb-3">
                                 <strong>Id</strong> {photo.id}
                             </p>

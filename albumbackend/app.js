@@ -28,6 +28,10 @@ app.use('/comments',CommentRoutes)
 const AlbumRoutes=require('./routes/Album')
 app.use('/albums',AlbumRoutes)
 
+// const FeedRoutes=require('./routes/feed')
+// app.use('/feeds',FeedRoutes)
+const FeedRoutes=require('./routes/feed')
+app.use('/feed',FeedRoutes)
 
 
 const PhotoRoutes=require('./routes/Photo');

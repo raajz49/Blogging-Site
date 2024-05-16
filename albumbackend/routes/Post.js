@@ -7,6 +7,7 @@ const { adminMiddleWare } = require('../middleware/admin');
 
 router.get("/user",authMiddleWare,restrictTo('USER','ADMIN'),controller.getPostOfUser);
 router.get("/",[authMiddleWare],[adminMiddleWare],controller.getPosts);
+router.get("/",authMiddleWare,restrictTo('USER','ADMIN'),controller.getFeed);
 router.get("/:id",[authMiddleWare],controller.getPostById);
 router.post("/",[authMiddleWare],controller.Post);
 router.put("/:id",[authMiddleWare],controller.putPost);
