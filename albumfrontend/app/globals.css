@@ -40,15 +40,22 @@ body {
     @apply  border-white bg-white px-8 py-3 text-gray-900
   }
   .btn_green  { 
-    @apply   bg-green-500 rounded-xl text-white
+    @apply   bg-green-500 rounded-xl text-white w-32 text-sm
+  }
+
+  .btn_emoji  { 
+    @apply   bg-gray-500 rounded-xl  w-32 text-sm
   }
 
   .btn_green1  { 
     @apply  text-green-500 rounded-xl
   }
 
+  .btn_green2  { 
+    @apply  text-white bg-green-600 rounded-xl
+  }
   .btn_logout{
-    @apply text-red-500 hover:text-red-600  font-bold  rounded-xl
+    @apply  hover:text-red-600  font-bold  rounded-xl
   }
   .btn_dark_green { 
     @apply  bg-green-900  text-white transition-all hover:bg-black
@@ -80,6 +87,10 @@ body {
   }
 .btn_like{
   @apply text-[2px] font-extralight hover:text-blue-600
+}
+
+.btn_postfeed{
+  @apply bg-slate-900 text-[13px] w-full 
 }
   .input_tag{
     @apply h-12 px-4  rounded-md  text-gray-700 font-bold  border-b-[3px] font-serif

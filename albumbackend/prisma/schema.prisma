@@ -33,7 +33,7 @@ model User {
 model Post {
     id          Int       @id @unique @default(autoincrement())
     title       String
-    description String
+    description String    @db.VarChar(2000)
     user        User      @relation(fields: [userId], references: [id])
     userId      Int
     comment     Comment[]

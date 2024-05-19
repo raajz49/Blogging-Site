@@ -20,6 +20,23 @@ const getUser = async (req, res) => {
     }
 };
 
+const getUserbyId = async (req, res) => {
+    try {
+      const id = req.params.id;
+      const user = await prisma.user.findFirst({
+                where:{
+                    id: parseInt(id),
+                }
+            });
+            res.json(user);
+       
+    } catch (error) {
+        console.error('Error in fetching user:', error);
+        res.status(500).json({ success: false, message: "Error in fetching user" });
+    }
+};
+
+
 const postUser = async (req, res) => {
     try {
         const { firstName, lastName, email, password, age, address,photoUrl } = req.body;
@@ -105,5 +122,6 @@ module.exports = {
     postUser,
     putUser,
     deleteUser,
-    login
+    login,
+    getUserbyId
 };

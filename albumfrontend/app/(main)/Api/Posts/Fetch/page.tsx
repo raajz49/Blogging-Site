@@ -125,8 +125,8 @@ const Post = () => {
           
           </div>
           </div>
-                <h6><div className=" mt-3 ml-2">{post.title}</div></h6>
-                <h6 className="mb-6 text-[12px] text-gray-300 font-sans font-extralight ml-2"><div>{post.description}</div></h6>
+                <h6><div className=" mt-3 ml-2 font-bold">{post.title}</div></h6>
+                <h6 className="mb-6  text-gray-300 ml-2"><div dangerouslySetInnerHTML={{__html:post.description }}></div></h6>
                 <div className='flex flex-row justify-between gap-3 border-2 rounded-xl border-blue-900 p-1 '>
                   <Link href={`/Api/Posts/Edit/${post.id}`}>
                     <Button

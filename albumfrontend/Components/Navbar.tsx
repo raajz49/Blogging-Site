@@ -70,6 +70,7 @@ const Navbar = () => {
           icon={<Logout />}
           variant="btn_logout"
           onClick={handleLogout}
+          iconColor="red"
         /> 
       </ul>
     </nav>

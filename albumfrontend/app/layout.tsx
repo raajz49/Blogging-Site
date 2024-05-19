@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
       
-      <main className='relative overflow-hidden'>
+      <main className='relative bg-gray-800 min-h-screen overflow-hidden'>
         {children}
         </main>
         </body>

@@ -4,6 +4,12 @@
 
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
+import dynamic from 'next/dynamic';
+import 'react-quill/dist/quill.snow.css';
+import Button from "@/Components/Button";
+
+// Dynamically import ReactQuill to avoid SSR issues
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const CreatePost = () => {
   const [formData, setFormData] = useState({ title: "", description: "" });
@@ -18,6 +24,13 @@ const CreatePost = () => {
     }));
   };
 
+  const handleQuillChange = (value: string) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      description: value,
+    }));
+  };
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
   
@@ -56,35 +69,38 @@ const CreatePost = () => {
   
 
   return (
-    <div className='flex justify-center items-center flex-col mt-32'>
-      <h2 className='text-2xl font-bold my-8'>Add new Post</h2>
+    <div>
+      {/* <h2 className='text-2xl font-bold my-8'>Add new Post</h2> */}
       {error && <p>Error: {error}</p>}
-
-      <form onSubmit={handleSubmit} className='flex gap-3 flex-col w-1/3'>
+    
+      <form onSubmit={handleSubmit} className='flex gap-3 flex-col '>
+          <div>
         <input
           type="text"
           name="title"
           placeholder='Enter Title'
           value={formData.title}
           onChange={handleInputChange}
-          className='py-1 px-4 border rounded-md text-black'
+          className="  w-full text-black overflow-hidden"
         />
 
-        <input
-          type="text"
-          name="description"
-          placeholder='Enter description'
-          value={formData.description}
-          onChange={handleInputChange}
-          className='py-1 px-4 border rounded-md text-black'
+        <ReactQuill 
+        theme="snow"
+         
+        value={formData.description}
+        placeholder="Write Something......"
+        onChange={handleQuillChange} 
+        className="  w-full text-black bg-gray-300"
         />
-
-        <button
-          className='bg-blue-600 text-white mt-5 px-4 py-1 rounded-md cursor-pointer'
-          type="submit"
-        >
-          Add
-        </button>
+        </div>
+        <div className="flex justify-end">
+        <Button
+        type="submit"
+        title="Post"
+        variant="btn_green2"
+        />
+      </div>
+        
       </form>
     </div>
   );
